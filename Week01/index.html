@@ -91,9 +91,14 @@
                   {{products_detial.unit }} / 元
                 </div>
               </div>
-              <template v-for="img in products_detial.imagesUrl" class="images">
-                <img :src="img" alt="" class="images m-2" />
-              </template>
+              <div class="img_warp">
+
+                <div class="images" v-for="img in products_detial.imagesUrl">
+                  <img :src="img" alt="" class="m-2" />
+                </div>
+
+              </div>
+             
             </div>
 
             <span v-else>請選擇一個商品查看</span>
