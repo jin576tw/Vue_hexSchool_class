@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Week03</title>
+  </head>
+  <body>
+    <div id="app">
+      {{text}}
+      <card></card>
+      <card2></card2>
+    </div>
+  </body>
+  <!-- vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+  <!-- axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+    crossorigin="anonymous"
+  />
+
+  <script>
+
+    //區域註冊
+    const card2 = {
+      data() {
+        return {
+          text2: "區域註冊",
+        };
+      },
+      template: `<p>{{text2}}</p>`,
+      methods: {},
+      mounted() {},
+    };
+
+    //主元件
+    const app = Vue.createApp({
+      data() {
+        return {
+          text: "222",
+        };
+      },
+      components:{
+        card2//區域註冊元件
+      
+      },
+      methods: {},
+      mounted() {},
+    });
+
+    //全域註冊
+    //註冊元件
+    app.component("card", {
+      data() {
+        return {
+          text: "全域註冊元件",
+        };
+      },
+      template: `<p>{{text}}</p>`,
+      
+    }); //自定義名稱，元件程式碼
+    app.mount("#app");
+
+    
+  </script>
+</html>

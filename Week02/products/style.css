@@ -1,0 +1,27 @@
+img {
+  object-fit: contain;
+  max-width: 100%;
+}
+
+.primary-image {
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.images {
+  width: 50%;
+  height: 150px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+.img_warp{
+  display: flex;
+}

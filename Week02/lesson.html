@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="app2"></div>
+    <div id="vueApp">
+
+
+     <ul>
+       <li  v-for="product in products">
+         {{product.category}}{{product.id}}
+       </li>
+     </ul>
+
+     
+    </div>
+  </body>
+
+  <!-- vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+  <!-- axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+    crossorigin="anonymous"
+  />
+
+  <script>
+    const promisSetTimeout = (status) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (status) {
+            resolve("promiseSetTimout 成功");
+          } else {
+            reject("promiseSetTimout 失敗");
+          }
+        }, 10);
+      });
+    };
+
+    //鏈接
+    promisSetTimeout(1)
+      .then((res) => {
+        console.log(res);
+        return promisSetTimeout(1); //結束後return下一步
+      })
+      .then((res) => {
+        ///鏈接繼續
+        console.log(res);
+        return promisSetTimeout(1);
+      })
+      // ....
+      .catch((rej) => {
+        console.log("fail");
+      }); //promise往下找最近的catch，catch只對應前方的非同步。
+
+    ///axios
+    axios
+      .get("https://randomuser.me/api/")
+      .then((result) => {
+        // 第一次取得
+        console.log(result);
+        const { seed } = result.data.info;
+        console.log(seed);
+
+        //第二次取
+        return axios.get(`https://randomuser.me/api/?seed=${seed}`);
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error.response); //若promise失敗，會直接跳過then
+      });
+
+    ////this/////
+
+    const app = {
+      el: "#app",
+      template: `<div class="card">
+            <div class="card-body">
+              text
+            </div>
+            <div>`,
+
+      render() {
+        ///js渲染的方式
+        // const dom = document.querySelector(app.el)
+        const dom = document.querySelector(this.el); //不寫死指向內部函式
+        dom.innerHTML = this.template;
+      },
+    };
+
+    ///用this 才能重複使用
+    const app2 = {
+      ...app,
+    };
+
+    app2.el = "#app2";
+
+    app.render();
+    app2.render();
+
+    //simple call
+    const newObject1 = {
+      data: [],
+      array: [1, 2, 3, 4, 5],
+      callMethod() {
+        // function會變成全域物件
+        // 因此抓不到"this"
+        // this.array.forEach(function(item){
+        //   this.data.push(item)
+        // });
+
+        ///箭頭函式並不擁有自己的 this 變數,
+        //最終會尋找其封閉範圍,因此使用箭頭函式即可解決
+        this.array.forEach((item) => {
+          this.data.push(item);
+        });
+
+        console.log(this.data);
+      },
+    };
+
+    newObject1.callMethod();
+
+    Vue.createApp({
+      data() {
+        return {
+          apiUrl: "https://vue3-course-api.hexschool.io/v2",
+          apiPath: "casper-hexschool",
+          products: [],
+        };
+      },
+      methods: {
+        getData() {
+          const url = `${this.apiUrl}/api/${this.apiPath}/products/all`;
+
+          axios.get(url)
+          .then((res)=>{
+
+
+            this.products = res.data.products
+
+            // console.log(res.data.products );
+          })
+
+          
+        },
+      },
+      mounted() {
+
+        ///初始化
+        this.getData()
+
+
+
+      },
+    }).mount("#vueApp");
+  </script>
+</html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>作業1-關注點分離</title>
+    <title>作業2-RESTful API 串接</title>
 
     <!-- boostrap  -->
     <link
@@ -14,10 +14,16 @@
       crossorigin="anonymous"
     />
 
+    <!-- axios -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+      defer
+    ></script>
+
     <link rel="stylesheet" href="./style.css" />
 
     <script src="https://unpkg.com/vue@next" defer></script>
-    <script src="main.js" defer></script>
+    <script src="products.js" defer></script>
   </head>
 
   <body>
@@ -42,7 +48,7 @@
                   <td>{{product.origin_price}}</td>
                   <td>{{product.price}}</td>
                   <td>
-                    <span v-if="product.is_enabled == 16" class="text-success"
+                    <span v-if="product.is_enabled == 1" class="text-success"
                       >啟動</span
                     >
                     <span v-else class="text-danger">未啟動</span>
@@ -94,8 +100,8 @@
               <div class="img_warp">
                 <div
                   class="images"
-                  v-for="img in products_detial.imagesUrl"
-                  :key
+                  v-for="(img,index) in products_detial.imagesUrl"
+                  :key="index"
                 >
                   <img :src="img" alt="" class="m-2" />
                 </div>
