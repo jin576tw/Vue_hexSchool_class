@@ -134,7 +134,8 @@ const app = Vue.createApp({
     // 檢核是否登入
     axios.post(`${url}/api/user/check`).then((res) => {
       if (!res.data.success) {
-        window.location.href = "/Week04";
+        alert(res.data.message);
+        window.location.href = "../";
         
       } else {
         //商品初始化載入
