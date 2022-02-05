@@ -26,7 +26,7 @@ const app = Vue.createApp({
           //cookie存入登入參數
           document.cookie = `userToken=${token}; expires=${new Date(expired)};`;
 
-          window.location = "/Week04/products";
+          window.location.href = "./products";
         })
         //失敗的結果
         .catch((error) => {
