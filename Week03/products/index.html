@@ -130,10 +130,11 @@
                   v-if="products_temp.imagesUrl.length > 0"
                   class="product_picRow">
                     <div class="picRow"  
-                    :class="{active:selectedIndex === index}"
+                    @click="onSelectedPic(index)"
+                    :class="{active : selectedPicIndex === index}"
                     v-for="(pic,index) in products_temp.imagesUrl" 
                     :key="index"
-                    @click="onSelectedPic(index)"
+                    
                     >
                       <img :src="pic" alt="">
                     </div>
