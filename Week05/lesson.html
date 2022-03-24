@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Week03</title>
+
+    <!-- vue-loading-overlay css -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/vue-loading-overlay@5/dist/vue-loading.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <card1></card1>
+      <card2></card2>
+    </div>
+  </body>
+  <!-- vue -->
+  <script src="https://unpkg.com/vue@next"></script>
+  <!-- axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+    crossorigin="anonymous"
+  />
+
+  <!-- mitt -->
+  <script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
+
+  <!-- vue-loading-overlay -->
+  <script src="https://cdn.jsdelivr.net/npm/vue-loading-overlay@5"></script>
+
+  <script>
+    //Event bus - mitt
+    const emitter = mitt();
+
+    const app = Vue.createApp({});
+
+    app.component("card1", {
+      template: "<div>卡片 1</div>",
+      mounted() {
+        //發起mitt事件監聽
+        emitter.on("onClick", (text) => {
+          alert("被戳了");
+          console.log(text); ///傳遞的資料;
+        });
+      },
+    });
+    app.component("card2", {
+      template:
+        '<div><button type="button" @click="trigger">按我</button></div>',
+      methods: {
+        trigger() {
+          //加入觸發事件，連結外層監聽
+          emitter.emit("onClick", "text sended");
+
+          let loader = this.$loading.show({
+            // Optional parameters
+            container: this.fullPage ? null : this.$refs.formContainer,
+            canCancel: true,
+            onCancel: this.onCancel,
+          });
+
+          setTimeout(() => {
+            loader.hide();
+          }, 1000);
+        },
+      },
+    });
+
+    //使用外部套件
+    app.use(VueLoading.Plugin);
+
+    app.mount("#app");
+  </script>
+</html>
