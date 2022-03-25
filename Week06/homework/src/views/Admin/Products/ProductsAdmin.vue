@@ -60,7 +60,7 @@
     @update-product="onUpdatedProduct"
   ></product-modal>
 
-    <Loading :active="isLoading" :z-index="1060"></Loading>
+  <Loading :active="isLoading" :z-index="1060"></Loading>
 </template>
 
 <script>
@@ -77,6 +77,7 @@ export default {
       productModal: null,
 
       products: [],
+      item: {},
       product: {},
 
       selectedID: "",
@@ -89,6 +90,14 @@ export default {
     DelProductModal,
     ProductModal,
   },
+  watch: {
+    //若有變化，五秒更新回預設
+    product() {
+      setTimeout(() => {
+        this.getAdminProducts();
+      }, 5000);
+    },
+  },
   methods: {
     getAdminProducts() {
       const url = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products`;
@@ -97,13 +106,13 @@ export default {
         .get(url)
         .then((res) => {
           //   console.log(res.data);
-          this.isLoading= false;
+          this.isLoading = false;
           this.products = res.data.products;
 
           console.log(this.products);
         })
         .catch((error) => {
-          this.isLoading= false;
+          this.isLoading = false;
           console.dir(error);
         });
     },
@@ -137,11 +146,24 @@ export default {
 
     openProductModal(p) {
       this.productModal.show();
-      this.selectedID = p.id;
+
       if (p) {
         this.product = p;
+        this.selectedID = p.id;
       } else {
-        this.product = {};
+        this.product = {
+          imageUrl: "",
+          imagesUrl: [],
+          category: "",
+          content: "",
+          description: "",
+          id: "",
+          is_enabled: 1,
+          origin_price: 100,
+          price: 100,
+          title: "1",
+          unit: "",
+        };
       }
     },
 

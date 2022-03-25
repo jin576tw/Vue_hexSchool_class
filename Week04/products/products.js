@@ -136,7 +136,6 @@ const app = Vue.createApp({
       if (!res.data.success) {
         alert(res.data.message);
         window.location.href = "../";
-        
       } else {
         //商品初始化載入
         axios
